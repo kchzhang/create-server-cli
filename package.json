@@ -13,6 +13,7 @@
     "dev": "nitro dev",
     "build": "nitro build",
     "postbuild": "node script/init.mjs",
+    "start": "node .output/server/index.mjs",
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
     "cli:build": "tsc -p tsconfig.cli.json && node script/build-templates.mjs",
