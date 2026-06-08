@@ -1,7 +1,7 @@
 {
   "name": "base-server",
   "version": "1.0.0",
-  "description": "Base server scaffold powered by Nitro",
+  "description": "CLI server scaffold",
   "type": "module",
   "bin": {
     "base-server": "./dist/cli/index.js"
