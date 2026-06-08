@@ -1,5 +1,5 @@
 {
-  "name": "nsv",
+  "name": "@knox/nsv",
   "version": "1.0.0",
   "description": "CLI server scaffold",
   "type": "module",
@@ -16,7 +16,7 @@
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
     "cli:build": "tsc -p tsconfig.cli.json && node script/build-templates.mjs",
-    "release": "pnpm cli:build && npm publish"
+    "release": "pnpm cli:build && npm publish --access=public"
   },
   "engines": {
     "node": ">=18.0.0"
