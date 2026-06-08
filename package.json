@@ -1,5 +1,5 @@
 {
-  "name": "@knox/nsv",
+  "name": "@knox.zhang/nsv",
   "version": "1.0.0",
   "description": "CLI server scaffold",
   "type": "module",
