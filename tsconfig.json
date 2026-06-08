@@ -1,0 +1,10 @@
+{
+  "extends": "nitro/tsconfig",
+  "compilerOptions": {
+    "paths": {
+      "@service/*": ["./service/*"],
+      "@mapper/*": ["./mapper/*"],
+      "@types/*": ["./types/*"]
+    }
+  }
+}
