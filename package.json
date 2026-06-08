@@ -1,10 +1,10 @@
 {
-  "name": "base-server",
+  "name": "nsv",
   "version": "1.0.0",
   "description": "CLI server scaffold",
   "type": "module",
   "bin": {
-    "base-server": "./dist/cli/index.js"
+    "nsv": "./dist/cli/index.js"
   },
   "files": [
     "dist"
@@ -15,7 +15,8 @@
     "postbuild": "node script/init.mjs",
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
-    "cli:build": "tsc -p tsconfig.cli.json && node script/build-templates.mjs"
+    "cli:build": "tsc -p tsconfig.cli.json && node script/build-templates.mjs",
+    "release": "pnpm cli:build && npm publish"
   },
   "engines": {
     "node": ">=18.0.0"
