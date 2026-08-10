@@ -2,6 +2,7 @@ import { defineConfig } from "nitro";
 
 export default defineConfig({
   serverDir: "./",
+  errorHandler: "./utils/error-handler.ts",
   runtimeConfig: {
     db: {
       host: process.env.DB_HOST || "localhost",

@@ -8,7 +8,6 @@ const OUTPUT = path.resolve(ROOT, "dist/cli/templates");
 
 /** 需要从项目根目录复制到模板的根文件 */
 const ROOT_FILES = [
-  "server.ts",
   "nitro.config.ts",
   "tsconfig.json",
   "vite.config.ts",
@@ -20,7 +19,7 @@ const ROOT_FILES = [
 ];
 
 /** 需要整体复制的子目录 */
-const DIRS = ["mapper", "middleware", "routes", "script", "service", "types"];
+const DIRS = ["mapper", "middleware", "plugins", "routes", "script", "types", "utils"];
 
 /** CLI 专属依赖（构建产物不需要） */
 const CLI_DEPS = new Set([
