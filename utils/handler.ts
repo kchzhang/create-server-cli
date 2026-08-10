@@ -51,7 +51,7 @@ export function defineApiHandler<T>(
       if (error instanceof ValidationError) {
         return failWithStatus(event, error.message, ErrorCode.VALIDATION_ERROR);
       }
-      logger.error(`API Error: ${event.req.method} ${event.path}`, error);
+      logger.error(`API Error: ${event.req.method} ${event.url.pathname}`, error);
       return handleApiError(event, error);
     }
   };

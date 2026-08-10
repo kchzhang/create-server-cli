@@ -10,8 +10,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "nitro dev",
-    "build": "nitro build",
+    "dev": "vite dev",
+    "build": "vite build",
     "postbuild": "node script/init.mjs",
     "start": "node .output/server/index.mjs",
     "preview": "node .output/server/index.mjs",
@@ -35,7 +35,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^25.0.3",
-    "nitro": "3.0.1-alpha.1",
+    "nitro": "3.0.260603-beta",
     "vite": "^7.3.0"
   }
 }

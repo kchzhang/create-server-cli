@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 import { useRuntimeConfig } from "nitro/runtime-config";
-import { logger } from "../service/logger";
+import { logger } from "../utils/logger";
 import { getPoolRef, setPoolRef } from "./pool";
 import type { RowDataPacket, OkPacket, ResultSetHeader } from "mysql2/promise";
 

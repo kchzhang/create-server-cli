@@ -57,5 +57,3 @@ export function handleApiError(event: H3Event, error: unknown) {
 
   return failWithStatus(event, message, ErrorCode.UNKNOWN_ERROR);
 }
-
-

@@ -1,5 +1,5 @@
 import type mysql from "mysql2/promise";
-import { logger } from "../service/logger";
+import { logger } from "../utils/logger";
 
 let _pool: mysql.Pool | null = null;
 
