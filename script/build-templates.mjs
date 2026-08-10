@@ -19,7 +19,7 @@ const ROOT_FILES = [
 ];
 
 /** 需要整体复制的子目录 */
-const DIRS = ["mapper", "middleware", "plugins", "routes", "script", "types", "utils"];
+const DIRS = ["mapper", "middleware", "plugins", "routes", "types", "utils"];
 
 /** CLI 专属依赖（构建产物不需要） */
 const CLI_DEPS = new Set([
@@ -37,7 +37,7 @@ const CLI_DEPS = new Set([
 const CLI_FIELDS = new Set(["bin", "files"]);
 
 /** CLI 专属脚本 */
-const CLI_SCRIPTS = new Set(["cli:build"]);
+const CLI_SCRIPTS = new Set(["cli:build", "postbuild"]);
 
 /**
  * 从项目 package.json 生成模板的 package.json.ejs
