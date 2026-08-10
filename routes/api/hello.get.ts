@@ -1,5 +1,6 @@
-import { defineApiHandler } from "../../utils/handler";
+import { defineEventHandler } from "nitro/h3";
+import { success } from "@/utils/response";
 
-export default defineApiHandler(async (event) => {
-  return { message: "Hello, World!", path: event.path };
+export default defineEventHandler(async (event) => {
+  return success({ message: "Hello, World!", path: event.url.pathname });
 });

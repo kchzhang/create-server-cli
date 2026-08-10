@@ -3,6 +3,12 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "paths": {
+      "@/*": ["./*"],
+      "@service/*": ["./service/*"],
+      "@mapper/*": ["./mapper/*"],
+      "@types/*": ["./types/*"]
+    },
     "outDir": "dist/cli",
     "rootDir": "cli",
     "esModuleInterop": true,
