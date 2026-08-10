@@ -1,90 +1,59 @@
 # NSV - Nitro Server Scaffold
 
-基于 [Nitro](https://nitro.unjs.io/) 的后端项目脚手架 CLI 工具，一键生成开箱即用的 Node.js 服务端项目。
+基于 [Nitro](https://nitro.unjs.io/) 的后端项目脚手架，一键生成开箱即用的 Node.js 服务端项目。
 
-## 特性
-
-- 基于 Nitro（UnJS 生态）构建，自动文件路由、HMR 开发体验
-- 内置 MySQL 连接池与便捷查询方法（`query` / `queryOne` / `execute`）
-- 统一 API 响应格式（`success` / `fail` / `paginated`）与错误码体系
-- 请求参数校验（`validateBody` / `validateQuery`）
-- CORS 中间件、请求日志与耗时追踪
-- 分级日志系统（控制台 + 按日归档文件）
-- Docker 多阶段构建 + docker-compose 一键部署
-- 健康检查端点 `/api/health`
- 
-## 安装
-
-**全局安装（推荐）：**
+## 快速开始
 
 ```bash
-npm install -g @knox.zhang/nsv
-```
+# 全局安装
+npm install -g @knoxzhang/nsv
 
-**免安装直接使用：**
-
-```bash
-npx @knox.zhang/nsv init my-project
-```
-
-## 使用
-
-```bash
-# 交互式创建项目
-nsv init
-
-# 指定项目名称
+# 创建项目
 nsv init my-server
+
+# 或免安装直接使用
+npx @knoxzhang/nsv init my-server
 ```
 
-CLI 会引导你输入项目名称和描述，然后自动生成项目结构并初始化 Git 仓库。
-
-## 生成的项目结构
+## 项目结构
 
 ```
 my-server/
-├── server.ts              # 请求生命周期（日志、耗时记录）
-├── nitro.config.ts        # Nitro 配置（运行时数据库配置、关闭钩子）
+├── nitro.config.ts        # Nitro 配置（数据库、全局错误处理）
 ├── vite.config.ts         # Vite + Nitro 插件
-├── tsconfig.json          # TypeScript 配置（含路径别名）
-├── Dockerfile             # 多阶段构建
-├── docker-compose.yml     # App + MySQL 编排
-├── .env.example           # 环境变量模板
+├── tsconfig.json
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
 ├── mapper/
-│   ├── pool.ts            # MySQL 连接池管理
-│   └── mysql.ts           # 便捷查询方法
+│   ├── pool.ts            # MySQL 连接池
+│   └── mysql.ts           # query / queryOne / execute
 ├── middleware/
 │   └── cors.ts            # CORS 中间件
+├── plugins/
+│   └── db.ts              # 数据库连接插件
 ├── routes/
 │   └── api/
 │       ├── hello.get.ts   # 示例接口
 │       └── health.get.ts  # 健康检查
-├── service/
+├── utils/
+│   ├── error-handler.ts   # 全局错误拦截（404/5xx 友好提示）
 │   ├── handler.ts         # defineApiHandler 统一封装
 │   ├── logger.ts          # 分级日志
 │   └── response.ts        # 统一响应格式
-├── script/                # 构建后处理脚本
+├── script/
 └── types/
-    └── index.ts           # ErrorCode、分页类型等
+    └── index.ts           # ErrorCode、分页类型
 ```
 
 ## 开发
 
 ```bash
-# 安装依赖
-pnpm install
-
-# 启动开发服务器（HMR）
-pnpm dev
-
-# 构建
-pnpm build
-
-# 预览构建产物
-pnpm preview
-
-# 类型检查
-pnpm typecheck
+pnpm install    # 安装依赖
+pnpm dev        # 启动开发服务器（HMR）
+pnpm build      # 构建
+pnpm preview    # 预览构建产物
+pnpm typecheck  # 类型检查
 ```
 
 ## 环境变量
@@ -96,40 +65,23 @@ pnpm typecheck
 | `DB_USER` | MySQL 用户名 | - |
 | `DB_PASSWORD` | MySQL 密码 | - |
 | `DB_DATABASE` | 数据库名 | - |
-| `LOG_LEVEL` | 日志级别 (`debug`/`info`/`warn`/`error`) | `info` |
+| `LOG_LEVEL` | 日志级别 | `info` |
 | `LOG_DIR` | 日志文件目录 | `logs` |
 
-## Docker 部署
-
-```bash
-# 创建 .env 文件并填写数据库配置
-cp .env.example .env
-
-# 构建并启动
-docker compose up -d
-
-# 查看日志
-docker compose logs -f app
-```
-
-`docker-compose.yml` 包含 App 和 MySQL 两个服务，App 依赖 MySQL 健康检查通过后才启动。
-
-## API 示例
+## 用法示例
 
 ### 统一响应格式
 
+所有接口返回 `{ code, message, data }` 格式：
+
 ```json
-{
-  "code": 0,
-  "message": "ok",
-  "data": { ... }
-}
+{ "code": 0, "message": "ok", "data": { ... } }
 ```
 
-### 使用 defineApiHandler
+### 创建接口
 
 ```ts
-import { defineApiHandler } from "../../service/handler";
+import { defineApiHandler } from "../../utils/handler";
 
 export default defineApiHandler(
   async (event) => {
@@ -149,20 +101,23 @@ export default defineApiHandler(
 ```ts
 import { query, queryOne, execute } from "../mapper/mysql";
 
-// 查询列表
 const users = await query<RowDataPacket[]>("SELECT * FROM users WHERE status = ?", [1]);
-
-// 查询单行
 const user = await queryOne<RowDataPacket[]>("SELECT * FROM users WHERE id = ?", [id]);
-
-// 写操作
 const result = await execute("INSERT INTO users (name) VALUES (?)", ["test"]);
+```
+
+### 全局错误拦截
+
+404 和服务端异常自动返回友好提示，不暴露内部信息：
+
+```json
+{ "code": 1002, "message": "请求的资源不存在", "data": null }
 ```
 
 ## 错误码
 
-| 错误码 | 说明 | HTTP 状态码 |
-|--------|------|-------------|
+| 错误码 | 说明 | HTTP |
+|--------|------|------|
 | `0` | 成功 | 200 |
 | `-1` | 未知错误 | 500 |
 | `1001` | 参数校验错误 | 400 |
@@ -172,13 +127,19 @@ const result = await execute("INSERT INTO users (name) VALUES (?)", ["test"]);
 | `2001` | 数据库连接错误 | 503 |
 | `2002` | 数据库查询错误 | 500 |
 
+## Docker 部署
+
+```bash
+cp .env.example .env   # 填写数据库配置
+docker compose up -d
+docker compose logs -f app
+```
+
 ## 发布
 
 ```bash
 pnpm release
 ```
-
-该命令会编译 CLI 代码、构建模板文件并发布到 npm。
 
 ## License
 
