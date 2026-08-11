@@ -1,6 +1,6 @@
 {
   "name": "@knoxzhang/nsv",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CLI server scaffold",
   "type": "module",
   "bin": {
