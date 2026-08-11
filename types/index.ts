@@ -46,3 +46,18 @@ export interface PaginatedData<T> {
   pageSize: number;
   totalPages: number;
 }
+
+/** 健康检查响应 */
+export interface HealthResponse {
+  status: string;
+  timestamp: string;
+  services: {
+    database: string;
+  };
+}
+
+/** Hello 响应 */
+export interface HelloResponse {
+  message: string;
+  path: string;
+}

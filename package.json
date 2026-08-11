@@ -12,11 +12,12 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "postbuild": "node script/init.mjs",
+    "postbuild": "pnpm generate:openapi",
+    "generate:openapi": "tsx script/generate-openapi.ts",
     "start": "node .output/server/index.mjs",
     "preview": "node .output/server/index.mjs",
     "typecheck": "tsc --noEmit",
-    "cli:build": "tsc -p tsconfig.cli.json && node script/build-templates.mjs",
+    "cli:build": "tsc -p tsconfig.cli.json && node cli/build-templates.mjs",
     "cli:test": "node dist/cli/index.js init",
     "release": "pnpm cli:build && npm publish --access=public"
   },
@@ -37,6 +38,9 @@
     "@types/inquirer": "^9.0.7",
     "@types/node": "^25.0.3",
     "nitro": "3.0.260603-beta",
+    "ts-json-schema-generator": "^2.9.0",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3",
     "vite": "^7.3.0"
   }
 }

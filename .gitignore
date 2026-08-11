@@ -34,3 +34,6 @@ temp/
 
 # CLI templates (build output)
 cli/templates/
+
+# Generated docs (OpenAPI spec data module)
+routes/docs/_openapi-data.ts
