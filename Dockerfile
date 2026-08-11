@@ -28,6 +28,7 @@ WORKDIR /app
 # Nitro trace 已将所有运行时依赖打入 .output，无需 npm install
 COPY --from=builder /app/.output .output
 COPY --from=builder /app/logs logs
+COPY --from=builder /app/.env .env
 
 RUN chown -R nitro:nitro /app
 
@@ -42,4 +43,4 @@ ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD wget -qO- http://localhost:3000/api/health || exit 1
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "--env-file=.env", ".output/server/index.mjs"]
